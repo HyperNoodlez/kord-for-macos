@@ -5,7 +5,7 @@ edition = "2021"
 description = "Kord core library - speech-to-LLM-prompt engine with C FFI"
 license = "MIT"
 authors = ["Lab.gargé"]
-repository = "https://github.com/labgarge/kord"
+repository = "https://github.com/HyperNoodlez/kord-for-macos"
 
 [lib]
 name = "kord_core"
