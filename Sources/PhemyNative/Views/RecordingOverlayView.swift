@@ -186,37 +186,51 @@ struct RecordingOverlayView: View {
 
 // MARK: - Audio Ring View
 
-/// An audio-reactive recording indicator with three layers:
-/// outer glow, main ring stroke, and inner filled dot.
+/// An audio-reactive recording indicator with layered rings and glow.
+/// Uses a power curve to exaggerate peaks for punchy visual response.
 struct AudioRingView: View {
     var level: Float
     var color: Color
 
-    private var cgLevel: CGFloat { CGFloat(level) }
-    private var scale: CGFloat { 0.5 + 0.7 * cgLevel }
-    private var opacity: CGFloat { 0.3 + 0.7 * cgLevel }
-    private var glowRadius: CGFloat { 12 * cgLevel }
+    /// Power-curved level for snappier visual peaks
+    private var curved: CGFloat {
+        let l = CGFloat(level)
+        return pow(l, 0.6) // exaggerate mid-range, compress high
+    }
+
+    private var scale: CGFloat { 0.45 + 0.85 * curved }
+    private var ringWidth: CGFloat { 3.5 + 3.0 * curved }
+    private var glowRadius: CGFloat { 4 + 18 * curved }
+    private var glowOpacity: CGFloat { 0.25 + 0.55 * curved }
+    private var dotSize: CGFloat { 6 + 10 * curved }
+    private var pulseScale: CGFloat { 1.0 + 0.6 * curved }
 
     var body: some View {
         ZStack {
-            // Outer glow
+            // Expanding pulse ring — fades out as it grows
             Circle()
-                .stroke(color, lineWidth: 2.5)
+                .stroke(color, lineWidth: 2)
+                .scaleEffect(pulseScale)
+                .opacity(Double(0.4 * (1.0 - curved)))
+
+            // Soft outer glow
+            Circle()
+                .stroke(color, lineWidth: ringWidth * 0.7)
                 .blur(radius: glowRadius)
-                .opacity(opacity * 0.6)
+                .opacity(glowOpacity)
 
             // Main ring stroke
             Circle()
-                .stroke(color, lineWidth: 2.5)
-                .opacity(opacity)
+                .stroke(color, lineWidth: ringWidth)
+                .opacity(0.4 + 0.6 * curved)
 
             // Inner filled dot
             Circle()
                 .fill(color)
-                .frame(width: 8, height: 8)
-                .opacity(opacity)
+                .frame(width: dotSize, height: dotSize)
+                .opacity(0.5 + 0.5 * curved)
         }
         .scaleEffect(scale)
-        .animation(.easeOut(duration: 0.1), value: level)
+        .animation(.interpolatingSpring(stiffness: 280, damping: 18), value: level)
     }
 }

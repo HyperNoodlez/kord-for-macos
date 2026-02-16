@@ -13,9 +13,9 @@ final class AudioLevelBridge: ObservableObject {
     private var lastUpdateTime: CFAbsoluteTime = 0
     private var rawLevel: Float = 0
 
-    // EMA coefficients: attack is snappy for speech onset, decay is gentle for falloff
-    private let attackAlpha: Float = 0.5
-    private let decayAlpha: Float = 0.15
+    // EMA coefficients: attack is very snappy for speech onset, decay is gentle for falloff
+    private let attackAlpha: Float = 0.7
+    private let decayAlpha: Float = 0.12
     // Minimum interval between main-thread updates (~30fps)
     private let updateInterval: CFAbsoluteTime = 1.0 / 30.0
 
@@ -24,7 +24,7 @@ final class AudioLevelBridge: ObservableObject {
     /// Called from the Rust audio thread via C callback.
     func onAudioLevel(rms: Float, peak: Float) {
         // Normalize raw RMS (typically 0.01–0.15 for speech) to 0–1
-        let normalized = min(rms * 18.0, 1.0)
+        let normalized = min(rms * 22.0, 1.0)
 
         lock.lock()
         let alpha = normalized > rawLevel ? attackAlpha : decayAlpha

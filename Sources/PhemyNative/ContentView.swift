@@ -54,7 +54,7 @@ struct ContentView: View {
                     Image(nsImage: nsImage)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 14)
+                        .frame(height: 22)
                         .opacity(0.5)
                 }
             }
