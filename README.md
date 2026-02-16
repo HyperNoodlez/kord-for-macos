@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="visual%20assets/App_Logo.png" alt="Kord" width="180" />
+  <img src="visual%20assets/App_Logo.png" alt="Kord — free open-source AI voice dictation for macOS" width="180" />
 </p>
 
 <h1 align="center">Kord</h1>
 
 <p align="center">
-  <strong>Speak naturally. Get a polished prompt. Paste it anywhere.</strong>
+  <strong>Free, open-source AI voice dictation for macOS. The offline alternative to Wispr Flow, Willow, and Aqua Voice.</strong>
 </p>
 
 <p align="center">
@@ -14,11 +14,30 @@
   <img src="https://img.shields.io/badge/Rust-1.75%2B-orange?logo=rust&logoColor=white" alt="Rust" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" />
   <img src="https://img.shields.io/badge/100%25-offline-blueviolet" alt="Offline" />
+  <img src="https://img.shields.io/badge/cost-%240%2Fmo-brightgreen" alt="Free forever" />
 </p>
 
 ---
 
-Kord is a **completely offline** macOS menu bar app that turns your voice into polished, LLM-optimized prompts. Press a hotkey, speak your thoughts, and Kord transcribes with local Whisper, refines with a local LLM, and pastes the result directly into whatever app you're using — no cloud, no API keys, no data leaves your machine.
+Kord is a **completely offline** macOS menu bar app that turns your voice into polished, LLM-optimized text. Press a hotkey, speak your thoughts, and Kord transcribes with local Whisper, refines with a local LLM, and pastes the result directly into whatever app you're using — no cloud, no API keys, no subscription, no data leaves your machine.
+
+**Think of it as Wispr Flow or Willow, but free, open-source, and fully private.** No usage limits. No word caps. No account required. Everything runs on your Mac.
+
+---
+
+## Why Kord?
+
+Most AI dictation tools charge $8–15/month and send your voice to the cloud. Kord does the same thing for free, forever, with zero network requests.
+
+| | Kord | Wispr Flow | Willow | Aqua Voice | SuperWhisper |
+|---|:---:|:---:|:---:|:---:|:---:|
+| **Price** | **Free** | $12/mo | $12/mo | $8/mo | $5/mo |
+| **Open source** | **Yes** | No | No | No | No |
+| **Fully offline** | **Yes** | No | No | No | Partial |
+| **Voice → LLM prompt** | **Yes** | Yes | Yes | Yes | No |
+| **Auto-paste** | **Yes** | Yes | Yes | Yes | Yes |
+| **No account required** | **Yes** | No | No | No | No |
+| **Your data stays local** | **Yes** | No | No | No | Partial |
 
 ---
 
@@ -35,7 +54,7 @@ Kord is a **completely offline** macOS menu bar app that turns your voice into p
 1. **Press the hotkey** (default: `Alt+Space`) — a floating overlay appears
 2. **Speak naturally** — watch the audio-reactive ring respond to your voice
 3. **Release or press again** — Kord transcribes and optimizes your speech
-4. **Press Enter** — the polished prompt is pasted into the focused app
+4. **Press Enter** — the polished text is pasted into the focused app
 
 The entire pipeline runs on-device. Your voice data never leaves your Mac.
 
@@ -74,7 +93,7 @@ swift run
 ## Features
 
 ### Completely Offline
-Every component runs locally. Whisper handles transcription. A quantized Qwen LLM handles prompt optimization. No internet connection required after initial model downloads.
+Every component runs locally — Whisper for speech-to-text, a quantized Qwen LLM for text refinement. No internet connection required after model downloads. No telemetry. No analytics.
 
 ### Global Hotkey with Recording Overlay
 Trigger Kord from any app with a system-wide keyboard shortcut. The transparent floating overlay shows real-time audio visualization without stealing focus from your current window.
@@ -97,7 +116,6 @@ Trigger Kord from any app with a system-wide keyboard shortcut. The transparent 
 | **Custom** | Use your own system prompt |
 
 ### Flexible Paste Methods
-Four ways to deliver text to your target app:
 
 - **Cmd+V** — standard paste (default)
 - **Cmd+Shift+V** — plain text paste (strips formatting)
@@ -112,13 +130,13 @@ Six color themes that tint the entire UI — buttons, badges, the recording ring
 `Purple` · `Blue` · `Teal` · `Rose` · `Orange` · `Emerald`
 
 ### History
-Every recording is saved to a local SQLite database with the raw transcript, optimized prompt, mode used, and duration. Browse, search, and delete entries from the History tab.
+Every recording is saved locally with the raw transcript, optimized text, mode used, and duration. Browse and delete entries from the History tab.
 
 ---
 
 ## Models
 
-### Whisper (Transcription)
+### Whisper (Speech-to-Text)
 
 Downloaded from [ggerganov/whisper.cpp](https://huggingface.co/ggerganov/whisper.cpp) on first use.
 
@@ -130,9 +148,9 @@ Downloaded from [ggerganov/whisper.cpp](https://huggingface.co/ggerganov/whisper
 | medium | 1.5 GB | Slow | High accuracy |
 | large-v3 | 3.1 GB | Slowest | Maximum accuracy |
 
-### LLM (Prompt Optimization)
+### LLM (Text Optimization)
 
-All models are Q4_K_M quantized GGUF files from the [Qwen](https://huggingface.co/Qwen) family, running via llama.cpp with Metal GPU acceleration.
+Q4_K_M quantized GGUF models from the [Qwen](https://huggingface.co/Qwen) family, running via llama.cpp with Metal GPU acceleration on Apple Silicon.
 
 | Model | Size | Notes |
 |-------|------|-------|
@@ -140,8 +158,26 @@ All models are Q4_K_M quantized GGUF files from the [Qwen](https://huggingface.c
 | Qwen2.5 3B Instruct | 2.0 GB | Great balance of speed and quality |
 | Qwen2.5 1.5B Instruct | 1.0 GB | Smallest and fastest |
 
-Expect ~30–50 tokens/sec on Apple Silicon. Prompt optimization typically completes in under 2 seconds.
+~30–50 tokens/sec on Apple Silicon. Prompt optimization completes in under 2 seconds.
 
+---
+
+## FAQ
+
+**How does this compare to macOS built-in Dictation?**
+Built-in Dictation gives you a raw transcript. Kord goes further — it cleans up filler words, fixes grammar, reformats for context (code, email, technical docs), and auto-pastes the result. It's voice-to-polished-text, not just voice-to-text.
+
+**Does it work with ChatGPT, Cursor, Slack, etc.?**
+Yes. Kord pastes into whatever app has focus. It works everywhere you can type — ChatGPT, Cursor, VS Code, Slack, Gmail, Notion, Terminal, or any other app.
+
+**How accurate is the transcription?**
+Kord uses OpenAI's Whisper models running locally. The `base` model is fast and accurate for everyday use. The `large-v3` model matches state-of-the-art cloud transcription accuracy.
+
+**Does it work without internet?**
+Yes, 100%. After you download the models (one-time), Kord never makes a network request. Airplane mode, no Wi-Fi, air-gapped — it all works.
+
+**What languages are supported?**
+Whisper supports 99 languages. Set the language code in Transcription settings (e.g., `en`, `es`, `fr`, `de`, `ja`, `zh`).
 
 ---
 
