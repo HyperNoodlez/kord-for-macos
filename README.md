@@ -188,7 +188,7 @@ MIT License. See [LICENSE](LICENSE) for details.
 ---
 
 <p align="center">
-  <img src="visual%20assets/Company_logo.png" alt="Lab.gargé" width="140" />
+  <img src="visual%20assets/Logo_white.png" alt="Lab.gargé" width="140" />
 </p>
 
 <p align="center">
