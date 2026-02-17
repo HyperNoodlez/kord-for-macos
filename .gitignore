@@ -7,7 +7,7 @@ phemy-core/target/
 
 # Build outputs
 libphemy_core.dylib
-dist/
+dist/*
 !dist/Phemy.dmg
 
 # macOS
